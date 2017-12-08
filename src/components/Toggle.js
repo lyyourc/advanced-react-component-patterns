@@ -28,6 +28,8 @@ export function withToggle(Component) {
 
   Wrapper.displayName = `withToggle(${Component.displayName || Component.name})`
 
+  Wrapper.WrappedComponent = Component
+
   return Wrapper
 }
 

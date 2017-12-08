@@ -1,37 +1,46 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import logo from './logo.svg'
 import './App.css'
 import Toggle, { withToggle } from './components/Toggle'
 
-class myToggle extends Component {
-  focus = () => this.button.focus()
+const MyToggle = ({ toggleContext: { on, toggle } }) => {
+  return (
+    <button onClick={toggle}>
+      { on ? 'on' : 'off' }
+    </button>
+  )
+}
 
-  render() {
-    const { on, toggle } = this.props
+const MyToggleWrapper = withToggle(MyToggle)
 
-    return (
-      <div>
-        My custom toggle:
-        <button ref={button => (this.button = button)} onClick={toggle}>
-          {on ? 'open' : 'close'}
-        </button>
-      </div>
-    )
+function test() {
+  const div = document.createElement('div')
+  document.body.appendChild(div)
+  const toggle = () => (toggle.called  = true)
+
+  ReactDOM.render(
+    <MyToggleWrapper.WrappedComponent toggleContext={{ on: true, toggle }} />,
+    div
+  )
+
+  if (!div.innerHTML.includes('on')) {
+    throw new Error(`Contents are wrong: ${div.innerHTML}`)
   }
 }
 
-const MyToggleWrapper = withToggle(myToggle)
+test()
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Toggle onToggle={on => (on ? this.myToggle.focus() : null)}>
+        <Toggle onToggle={this.handleToggle}>
           <Toggle.On> The button is on </Toggle.On>
           <Toggle.Off> The button is off </Toggle.Off>
           <Toggle.Button />
           <hr />
-          <MyToggleWrapper innerRef={myToggle => (this.myToggle = myToggle)} />
+          <MyToggleWrapper />
         </Toggle>
       </div>
     )
