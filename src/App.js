@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import ConnectedToggle from './components/ConnectedToggle'
 import ToggleProvider from './components/ToggleProvider'
+import withToggle from './components/withToggle'
 import Switch from './components/Switch'
 
 function Header() {
@@ -10,11 +11,9 @@ function Header() {
   } />
 }
 
-function Post() {
-  return <ConnectedToggle render={
-    toggle => (toggle.on ? '😀' : 'text')
-  } />
-}
+const Post = withToggle(
+  ({ toggle }) => <div>{toggle.on ? '😀' : 'text'}</div>
+)
 
 class App extends Component {
   render() {
