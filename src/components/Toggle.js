@@ -17,9 +17,9 @@ const ToggleButton = ({ toggleContext: { on, toggle }, ...props }) => {
 }
 
 export function withToggle(Component) {
-  function Wrapper(props, context) {
+  function Wrapper({ innerRef, ...props }, context) {
     const toggleContext = context[TOGGLE_CONTEXT]
-    return <Component toggleContext={toggleContext} {...props} />
+    return <Component ref={innerRef} toggleContext={toggleContext} {...props} />
   }
 
   Wrapper.contextTypes = {
