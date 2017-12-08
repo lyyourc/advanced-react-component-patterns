@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Toggle from './components/Toggle'
+import Toggle, { withToggle } from './components/Toggle'
+
+const MyToggleButton = withToggle(({ on, toggle }) => (
+  <div>
+    My custom toggle: 
+    <button onClick={toggle}>
+      { on ? 'open' : 'close' }
+    </button>
+  </div>
+))
 
 class App extends Component {
   render() {
@@ -11,12 +20,14 @@ class App extends Component {
           <div>
             <Toggle.On> The button is on </Toggle.On>
           </div>
-
-          <Toggle.Button />
-
           <div>
             <Toggle.Off> The button is off </Toggle.Off>
           </div>
+
+          <Toggle.Button />
+          <hr />
+          <MyToggleButton />
+
         </Toggle>
       </div>
     );
