@@ -4,32 +4,19 @@ import logo from './logo.svg'
 import './App.css'
 import Toggle, { withToggle } from './components/Toggle'
 
-const MyToggle = ({ toggleContext: { on, toggle } }) => {
-  return (
-    <button onClick={toggle}>
-      { on ? 'on' : 'off' }
-    </button>
-  )
-}
-
-const MyToggleWrapper = withToggle(MyToggle)
-
-function test() {
-  const div = document.createElement('div')
-  document.body.appendChild(div)
-  const toggle = () => (toggle.called  = true)
-
-  ReactDOM.render(
-    <MyToggleWrapper.WrappedComponent toggleContext={{ on: true, toggle }} />,
-    div
+class MyToggle extends Component {
+  static ToggleMessage = withToggle(
+    ({ toggleContext: { on } }) =>
+      on ? 'Warning: The button is toggled on' : null
   )
 
-  if (!div.innerHTML.includes('on')) {
-    throw new Error(`Contents are wrong: ${div.innerHTML}`)
+  render() {
+    const { toggleContext: { on, toggle } } = this.props
+    return <button onClick={toggle}>{on ? 'on' : 'off'}</button>
   }
 }
 
-test()
+const MyToggleWrapper = withToggle(MyToggle)
 
 class App extends Component {
   render() {
@@ -41,6 +28,8 @@ class App extends Component {
           <Toggle.Button />
           <hr />
           <MyToggleWrapper />
+          <hr />
+          <MyToggleWrapper.ToggleMessage />
         </Toggle>
       </div>
     )
