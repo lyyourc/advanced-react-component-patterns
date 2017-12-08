@@ -21,20 +21,16 @@ class App extends Component {
     return (
       <div className="App">
         <Toggle
-          render={({ on, toggle, getTogglerProps }) => (
+          defaultOn={true}
+          onToggle={this.handleToggle}
+          onReset={on => console.log('reset', on)}
+          render={({ on, reset, getTogglerProps }) => (
             <div>
-              {on ? 'The button is on' : 'The button is off'}
               <Switch on={on} {...getTogglerProps()} />
-              <hr />
               <button
-                {...getTogglerProps({
-                  onClick: () => {
-                    console.log('hi')
-                  },
-                  id: 'hi',
-                })}
+                onClick={() => reset()}
               >
-                { on ? 'open' : 'close' }
+                Reset
               </button>
             </div>
           )}
