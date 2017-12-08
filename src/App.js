@@ -1,46 +1,35 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
 import Toggle, { withToggle } from './components/Toggle'
 
-const MyToggleButton = withToggle(({ toggleContext: { on, toggle } }) => (
-  <div>
-    My custom toggle: 
-    <button onClick={toggle}>
-      { on ? 'open' : 'close' }
-    </button>
-  </div>
-))
-
-const MyEventComponent = withToggle(({ event, on, toggleContext } = {}) => {
-  const props = { [event]: on }
-  return toggleContext.on ? <button {...props}>The {event} event</button> : null
+const MyToggleWrapper = withToggle(function MyToggleWrapper(
+  { toggleContext: { on, toggle } }) {
+    return (
+      <div>
+        My custom toggle:
+        <button onClick={toggle}>{on ? 'open' : 'close'}</button>
+      </div>
+    )
 })
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Toggle onToggle={this.handleToggle} >
-          <div>
-            <Toggle.On> The button is on </Toggle.On>
-          </div>
-          <div>
-            <Toggle.Off> The button is off </Toggle.Off>
-          </div>
-
+        <Toggle onToggle={this.handleToggle}>
+          <Toggle.On> The button is on </Toggle.On>
+          <Toggle.Off> The button is off </Toggle.Off>
           <Toggle.Button />
           <hr />
-          <MyToggleButton />
-          <hr />
-          <MyEventComponent event="onClick" on={e => console.log(e.type)} />
+          <MyToggleWrapper />
         </Toggle>
       </div>
-    );
+    )
   }
   handleToggle = on => {
     console.log(on)
   }
 }
 
-export default App;
+export default App
