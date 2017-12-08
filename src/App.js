@@ -7,7 +7,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Toggle onToggle={this.handleToggle} />
+        <Toggle onToggle={this.handleToggle} >
+          <Toggle.On> The button is on </Toggle.On>
+          <Toggle.Button />
+          <Toggle.Off> The button is off </Toggle.Off>
+        </Toggle>
       </div>
     );
   }
