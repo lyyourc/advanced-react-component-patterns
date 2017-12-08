@@ -18,17 +18,25 @@ export default class Toggle extends Component {
 
   render() {
     return this.props.render({
-      on: this.state.on,
+      on: this.isOnControlled() ? this.props.on : this.state.on,
       toggle: this.toggle,
       reset: this.reset,
       getTogglerProps: this.getTogglerProps,
     })
   }
 
+  isOnControlled = () => {
+    return this.props.on !== undefined
+  }
+
   reset = () => {
-    this.setState(this.initState, () => {
-      this.props.onReset(this.state.on)
-    })
+    if (this.isOnControlled()) {
+      this.props.onReset(this.props.on)
+    } else {
+      this.setState(this.initState, () => {
+        this.props.onReset(this.state.on)
+      })
+    }
   }
 
   getTogglerProps = ({ onClick, ...props } = {}) => {
@@ -40,11 +48,15 @@ export default class Toggle extends Component {
   }
 
   toggle = () => {
-    this.setState(
-      ({ on }) => ({ on: !on }),
-      () => {
-        this.props.onToggle(this.state.on)
-      }
-    )
+    if (this.isOnControlled()) {
+      this.props.onToggle(!this.props.on)
+    } else {
+      this.setState(
+        ({ on }) => ({ on: !on }),
+        () => {
+          this.props.onToggle(this.state.on)
+        }
+      )
+    }
   }
 }

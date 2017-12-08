@@ -17,29 +17,41 @@ class MyToggle extends Component {
 }
 
 class App extends Component {
+  initState = { timeClicked: 0, on: true }
+  state = this.initState
+
   render() {
+    const { timeClicked, on } = this.state
+
     return (
       <div className="App">
         <Toggle
-          defaultOn={true}
+          on={on}
           onToggle={this.handleToggle}
-          onReset={on => console.log('reset', on)}
+          onReset={this.handleReset}
           render={({ on, reset, getTogglerProps }) => (
             <div>
               <Switch on={on} {...getTogglerProps()} />
-              <button
-                onClick={() => reset()}
-              >
-                Reset
-              </button>
+              {timeClicked > 4
+                ? 'Whoa, you have clicked too much'
+                : `click count: ${timeClicked}`}
+              <button onClick={() => reset()}>Reset</button>
             </div>
-          )}
+        )}
         />
       </div>
     )
   }
-  handleToggle = on => {
-    console.log(on)
+
+  handleToggle = () => {
+    this.setState(({ timeClicked, on }) => ({
+      timeClicked: timeClicked + 1,
+      on: timeClicked >= 4 ? false : !on,
+    }))
+  }
+
+  handleReset = () => {
+    this.setState(this.initState)
   }
 }
 
