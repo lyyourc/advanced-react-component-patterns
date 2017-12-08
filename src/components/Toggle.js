@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes, { func } from 'prop-types'
 
+const compose = (...fns) => (...args) => fns.forEach(fn => fn && fn(...args))
+
 export default class Toggle extends Component {
   static defaultProps = {
     onToggle: () => {},
@@ -14,11 +16,16 @@ export default class Toggle extends Component {
     return this.props.render({
       on: this.state.on,
       toggle: this.toggle,
-      togglerProps: {
-        onClick: this.toggle,
-        'aria-expanded': this.state.on,
-      },
+      getTogglerProps: this.getTogglerProps,
     })
+  }
+
+  getTogglerProps = ({ onClick, ...props } = {}) => {
+    return {
+      'aria-expanded': this.state.on,
+      onClick: compose(onClick, this.toggle),
+      ...props,
+    }
   }
 
   toggle = () => {

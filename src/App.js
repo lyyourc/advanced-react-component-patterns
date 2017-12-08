@@ -21,13 +21,21 @@ class App extends Component {
     return (
       <div className="App">
         <Toggle
-          onToggle={this.handleToggle}
-          render={({ on, toggle, togglerProps }) => (
+          render={({ on, toggle, getTogglerProps }) => (
             <div>
               {on ? 'The button is on' : 'The button is off'}
-              <Switch on={on} {...togglerProps} />
+              <Switch on={on} {...getTogglerProps()} />
               <hr />
-              <MyToggle on={on} {...togglerProps} />
+              <button
+                {...getTogglerProps({
+                  onClick: () => {
+                    console.log('hi')
+                  },
+                  id: 'hi',
+                })}
+              >
+                { on ? 'open' : 'close' }
+              </button>
             </div>
           )}
         />
