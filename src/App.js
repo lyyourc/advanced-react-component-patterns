@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Toggle, { withToggle } from './components/Toggle'
 
-const MyToggleButton = withToggle(({ on, toggle }) => (
+const MyToggleButton = withToggle(({ toggleContext: { on, toggle } }) => (
   <div>
     My custom toggle: 
     <button onClick={toggle}>
@@ -11,6 +11,11 @@ const MyToggleButton = withToggle(({ on, toggle }) => (
     </button>
   </div>
 ))
+
+const MyEventComponent = withToggle(({ event, on, toggleContext } = {}) => {
+  const props = { [event]: on }
+  return toggleContext.on ? <button {...props}>The {event} event</button> : null
+})
 
 class App extends Component {
   render() {
@@ -27,7 +32,8 @@ class App extends Component {
           <Toggle.Button />
           <hr />
           <MyToggleButton />
-
+          <hr />
+          <MyEventComponent event="onClick" on={e => console.log(e.type)} />
         </Toggle>
       </div>
     );
