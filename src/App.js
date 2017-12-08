@@ -8,10 +8,13 @@ import Toggle from './components/Toggle'
 class MyToggle extends Component {
   render() {
     const { on, toggle } = this.props
-    return <button onClick={toggle}>{on ? 'open' : 'close'}</button>
+    return (
+      <button aria-expanded={on} onClick={toggle}>
+        {on ? 'open' : 'close'}
+      </button>
+    )
   }
 }
-
 
 class App extends Component {
   render() {
@@ -19,15 +22,15 @@ class App extends Component {
       <div className="App">
         <Toggle
           onToggle={this.handleToggle}
-          render={({ on, toggle }) => (
+          render={({ on, toggle, togglerProps }) => (
             <div>
               {on ? 'The button is on' : 'The button is off'}
-              <Switch on={on} onClick={toggle} />
+              <Switch on={on} {...togglerProps} />
               <hr />
-              <MyToggle on={on} toggle={toggle} />
+              <MyToggle on={on} {...togglerProps} />
             </div>
-          )}>
-        </Toggle>
+          )}
+        />
       </div>
     )
   }
