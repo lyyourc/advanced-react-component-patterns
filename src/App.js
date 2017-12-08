@@ -8,9 +8,15 @@ class App extends Component {
     return (
       <div className="App">
         <Toggle onToggle={this.handleToggle} >
-          <Toggle.On> The button is on </Toggle.On>
+          <div>
+            <Toggle.On> The button is on </Toggle.On>
+          </div>
+
           <Toggle.Button />
-          <Toggle.Off> The button is off </Toggle.Off>
+
+          <div>
+            <Toggle.Off> The button is off </Toggle.Off>
+          </div>
         </Toggle>
       </div>
     );
