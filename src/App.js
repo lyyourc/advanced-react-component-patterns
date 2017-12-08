@@ -15,13 +15,26 @@ const Post = withToggle(
   ({ toggle }) => <div>{toggle.on ? '😀' : 'text'}</div>
 )
 
+class UpdateBlocker extends Component {
+  shouldComponentUpdate() {
+    return false
+  }
+  render() {
+    return this.props.children
+  }
+}
+
 class App extends Component {
   render() {
     return (
       <div className="App">
         <ToggleProvider>
-          <Header />
-          <Post />
+          <div>
+            <Header />
+            <UpdateBlocker>
+              <Post />
+            </UpdateBlocker>
+          </div>
         </ToggleProvider>
       </div>
     )
